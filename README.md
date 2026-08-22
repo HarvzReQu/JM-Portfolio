@@ -1,6 +1,6 @@
 # John Miles Gonzaga — Portfolio
 
-One-page portfolio site. Plain HTML/CSS/JS — no build step, no dependencies.
+One-page **video editing** portfolio. Plain HTML/CSS/JS — no build step, no dependencies.
 
 ```
 index.html        markup + content
@@ -42,15 +42,15 @@ version opened in the lightbox (`data-full`). When you replace one, replace both
 ### Add a photo or drawing tile
 
 ```html
-<li class="gallery__cell reveal" data-category="site">
+<li class="gallery__cell reveal" data-category="sketch">
   <button class="gallery__item" type="button"
           data-type="image"
-          data-full="assets/img/site-progress.jpg"     <!-- large version for the lightbox -->
-          data-caption="Site progress — Aya Hotel">     <!-- lightbox caption -->
-    <img src="assets/img/site-progress.jpg"             <!-- grid thumbnail -->
-         alt="Concrete pour on the third floor slab"    <!-- describe the photo -->
+          data-full="assets/img/still-brandfilm.jpg"    <!-- large version for the lightbox -->
+          data-caption="Brand film — graded still">     <!-- lightbox caption -->
+    <img src="assets/img/still-brandfilm-thumb.jpg"     <!-- grid thumbnail -->
+         alt="Graded frame from a brand film, warm key light on the subject"
          width="800" height="600" loading="lazy" decoding="async">
-    <span class="gallery__tag">Site</span>              <!-- corner label -->
+    <span class="gallery__tag">Still</span>             <!-- corner label -->
   </button>
 </li>
 ```
@@ -110,8 +110,8 @@ the same way until you fill it in.
 ## Editing content
 
 All copy lives in `index.html` under clearly commented sections (HERO, ABOUT, EXPERIENCE,
-PROJECTS, SKILLS, CERTIFICATIONS, GALLERY, CONTACT). To add an experience entry, copy an
-existing `<li class="timeline__item">`; for a project, copy a `<article class="card card--project">`.
+SERVICES, SKILLS, CERTIFICATIONS, GALLERY, CONTACT). To add an experience entry, copy an
+existing `<li class="timeline__item">`; for a service card, copy an `<article class="card card--project">`.
 
 ## Colors
 
@@ -119,9 +119,9 @@ Defined once as CSS variables at the top of `styles.css`:
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--navy` / `--navy-deep` | `#16324F` / `#0E2238` | engineering side — hero, contact, footer |
+| `--navy` / `--navy-deep` | `#16324F` / `#0E2238` | hero, contact, footer |
 | `--steel` | `#2C5F8A` | links, org names, timeline |
-| `--amber` / `--amber-deep` | `#E9963E` / `#9E590F` | creative side — CTA, accents, kickers |
+| `--amber` / `--amber-deep` | `#E9963E` / `#9E590F` | CTA, accents, kickers, volume slider |
 
 All body-size text pairs were checked against WCAG AA (≥4.5:1).
 
@@ -146,12 +146,15 @@ video library grows past a few hundred MB, move the files to YouTube tiles inste
 
 ## Notes
 
-- **"Sketchapp" was listed in the source notes and is written here as "Sketchup"** — worth
-  confirming before publishing.
-- **"Hand sketching" was added to the Engineering skills list** alongside the sketch
-  gallery. Delete that `<li class="skill">` if you'd rather not claim it.
+- **The site was re-scoped to video editing only.** Civil engineering content (Site
+  Engineer role, Aya Hotel project, AutoCAD/STAAD/Sketchup/Excel skills) was removed.
+  The old version is in git history if you ever want it back.
+- **Some skill and service wording was written for you, not dictated by you:**
+  "Color grading", "Sound & music sync", "Storyboarding", and the four service cards
+  describe standard editor work. Read them and delete anything you would not want to be
+  asked about in an interview.
 - **Video rights:** `anime-edit.mp4` and `sketch-process.mp4` came from TikTok downloads
   (`@big.steve701`, `@m3tz.art` in the original filenames). If they are not your own work,
   swap them for your own edits or add credit before publishing.
-- The "Site & Plans" gallery category was removed when its placeholder images were deleted.
-  Re-add it by giving a tile `data-category="site"` and adding a matching filter button.
+- Adding a third gallery category (e.g. "Stills") takes two things: `data-category="stills"`
+  on the tile and a matching `<button class="filter" data-filter="stills">` in the filter row.
