@@ -107,6 +107,33 @@ Until a video file exists, the viewer shows a short note naming the path it expe
 instead of a broken player. The Documentary tile ships with an empty `data-id` and behaves
 the same way until you fill it in.
 
+## The 3D layer
+
+Built with CSS 3D transforms only — no WebGL library, nothing to download, and it stays
+smooth on phones.
+
+| Piece | What it does |
+| --- | --- |
+| `.hero__floor` | A grid plane rotated flat (`rotateX(76deg)`) running to the horizon |
+| `.deck` | Four work frames floating at different `translateZ`, drifting on a loop |
+| `.reel` | Full-bleed film strip on a tilted plane, scrolling between About and Experience |
+| `[data-tilt]` | Cards, gallery tiles and the portrait tilt toward the pointer, with a sheen |
+| `.reveal` | Sections rise and rotate out of depth as they scroll in |
+| `.lightbox__figure` | Opens forward in Z instead of a flat fade |
+
+Two rules keep it fast and calm:
+
+- **Touch devices never run the tilt code.** `script.js` adds `is-tilt-ready` to `<html>`
+  only for `(hover: hover) and (pointer: fine)`, and every tilt style is scoped to that
+  class. Phones still get depth, driven by scroll position instead of a cursor.
+- **`prefers-reduced-motion: reduce` turns all of it off** — no float, no parallax, no
+  tilt, no scrolling strip — and the content renders flat and fully visible.
+
+Tilt hit-testing uses layout geometry (`offsetLeft`/`offsetTop`), not
+`getBoundingClientRect()`. A rotating card moves its own rendered shape, so testing
+against the rendered box makes the pointer "leave" the element mid-tilt and the card
+flickers between tilted and flat. Layout coordinates ignore transforms and stay stable.
+
 ## Editing content
 
 All copy lives in `index.html` under clearly commented sections (HERO, ABOUT, EXPERIENCE,

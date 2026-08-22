@@ -105,6 +105,127 @@
     sections.forEach(function (s) { spy.observe(s); });
   }
 
+
+  /* ============================================================
+     3D layer
+     Pointer tilt on cards, parallax on the hero deck. Everything
+     here is transform-only and rAF-batched, and none of it runs
+     for touch devices or when reduced motion is requested.
+     ============================================================ */
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var tiltEnabled = !reduceMotion && finePointer.matches;
+
+  if (tiltEnabled) document.documentElement.classList.add('is-tilt-ready');
+
+  (function tilt() {
+    if (!tiltEnabled) return;
+
+    var MAX = 7;                      // degrees; past ~8 it reads as a gimmick
+    var els = Array.prototype.slice.call(document.querySelectorAll('[data-tilt]'));
+    if (!els.length) return;
+
+    var boxes = [];                   // page-space geometry, transform independent
+    var active = null;
+    var frame = null;
+    var pointer = { x: 0, y: 0 };
+
+    // offsetLeft/offsetTop describe layout position and ignore transforms, so a
+    // tilting card cannot move its own hit box and flicker between states — which
+    // is exactly what pointerenter/pointerleave on the element itself would do.
+    function measure() {
+      boxes = els.map(function (el) {
+        var x = 0, y = 0, node = el;
+        while (node) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
+        return { el: el, x: x, y: y, w: el.offsetWidth, h: el.offsetHeight };
+      });
+    }
+
+    function reset(el) {
+      el.classList.remove('is-tilting');
+      el.style.setProperty('--rx', '0deg');
+      el.style.setProperty('--ry', '0deg');
+    }
+
+    function apply() {
+      frame = null;
+      var px = pointer.x + window.scrollX;
+      var py = pointer.y + window.scrollY;
+      var hit = null;
+
+      for (var i = 0; i < boxes.length; i++) {
+        var b = boxes[i];
+        if (px >= b.x && px <= b.x + b.w && py >= b.y && py <= b.y + b.h) { hit = b; break; }
+      }
+
+      if (active && (!hit || hit.el !== active)) { reset(active); active = null; }
+      if (!hit) return;
+
+      var el = hit.el;
+      if (active !== el) { active = el; el.classList.add('is-tilting'); }
+
+      var dx = (px - hit.x) / hit.w - 0.5;
+      var dy = (py - hit.y) / hit.h - 0.5;
+      el.style.setProperty('--rx', (-dy * MAX * 2).toFixed(2) + 'deg');
+      el.style.setProperty('--ry', (dx * MAX * 2).toFixed(2) + 'deg');
+      el.style.setProperty('--gx', (dx * 100 + 50).toFixed(1) + '%');
+      el.style.setProperty('--gy', (dy * 100 + 50).toFixed(1) + '%');
+    }
+
+    function schedule() { if (!frame) frame = requestAnimationFrame(apply); }
+
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    window.addEventListener('load', measure);
+
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      schedule();
+    }, { passive: true });
+
+    window.addEventListener('scroll', schedule, { passive: true });
+  })();
+
+  (function heroParallax() {
+    var deck = document.querySelector('[data-parallax] .deck__inner');
+    var hero = document.getElementById('hero');
+    if (!deck || !hero || reduceMotion) return;
+
+    var px = 0, py = 0, frame = null, inView = true;
+
+    function apply() {
+      frame = null;
+      deck.style.setProperty('--px', px.toFixed(3));
+      deck.style.setProperty('--py', py.toFixed(3));
+    }
+    function schedule() { if (!frame && inView) frame = requestAnimationFrame(apply); }
+
+    // Pause the work entirely once the hero has scrolled away.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+      }, { threshold: 0 }).observe(hero);
+    }
+
+    if (finePointer.matches) {
+      window.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        px = (e.clientX / window.innerWidth - 0.5) * 2;
+        py = (e.clientY / window.innerHeight - 0.5) * 2;
+        schedule();
+      }, { passive: true });
+    }
+
+    // Touch devices get the same depth, driven by scroll position.
+    window.addEventListener('scroll', function () {
+      var progress = Math.min(1, window.scrollY / Math.max(1, hero.offsetHeight));
+      py = -progress * 1.1;
+      schedule();
+    }, { passive: true });
+  })();
+
   /* ---------- Gallery lightbox ---------- */
   var lightbox = document.getElementById('lightbox');
   var lbStage = document.getElementById('lbStage');

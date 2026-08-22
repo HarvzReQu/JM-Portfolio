@@ -264,43 +264,73 @@ a { color: var(--steel); text-decoration: none; }
 .btn--ghost { border-color: rgba(255,255,255,.34); color: #fff; }
 .btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (3D stage) ---------- */
 .hero {
   position: relative;
   isolation: isolate;
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: calc(var(--nav-h) + 56px) 0 96px;
-  background: linear-gradient(155deg, #0E2238 0%, #16324F 46%, #234C74 100%);
+  padding: calc(var(--nav-h) + 30px) 0 74px;
+  background: linear-gradient(155deg, #0A1B2E 0%, #16324F 46%, #234C74 100%);
   color: #fff;
   overflow: hidden;
+  perspective: 1200px;
+  perspective-origin: 50% 42%;
 }
 
-/* Blueprint grid */
-.hero__grid {
+.hero__bg {
   position: absolute; inset: 0;
-  z-index: -2;
-  background-image:
-    linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
-  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
-  mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 40%, transparent 100%);
+  z-index: -1;
+  transform-style: preserve-3d;
+  pointer-events: none;
 }
+
+/* Grid plane rotated flat and running to the horizon. */
+.hero__floor {
+  position: absolute;
+  left: -60%; right: -60%;
+  bottom: -28%;
+  height: 118%;
+  transform: rotateX(76deg) translateZ(-60px);
+  transform-origin: 50% 100%;
+  overflow: hidden;
+  opacity: .85;
+}
+.hero__floor-lines {
+  position: absolute;
+  inset: -100% 0 0 0;
+  background-image:
+    linear-gradient(rgba(150,200,250,.42) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150,200,250,.32) 1px, transparent 1px);
+  background-size: 88px 88px;
+  animation: floorRun 7s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 34%, #000 78%);
+}
+@keyframes floorRun { to { transform: translateY(88px); } }
+
 .hero__glow {
   position: absolute;
-  z-index: -1;
-  width: 520px; height: 520px;
-  right: -160px; top: -140px;
+  width: 620px; height: 620px;
+  right: -180px; top: -180px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(233,150,62,.30) 0%, rgba(233,150,62,0) 68%);
-  filter: blur(6px);
+  background: radial-gradient(circle, rgba(233,150,62,.34) 0%, rgba(233,150,62,0) 68%);
+  transform: translateZ(120px);
+}
+.hero__vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 45%, transparent 40%, rgba(6,16,28,.55) 100%);
 }
 
-.hero__inner { position: relative; }
+.hero__inner {
+  position: relative;
+  display: grid;
+  gap: 28px;
+  transform-style: preserve-3d;
+  min-width: 0;            /* grid items default to min-width:auto and refuse to shrink */
+}
+.hero__copy { transform-style: preserve-3d; min-width: 0; }
 
 .hero__eyebrow {
   display: inline-block;
@@ -314,18 +344,20 @@ a { color: var(--steel); text-decoration: none; }
   text-transform: uppercase;
   color: #F5D9B6;
   background: rgba(255,255,255,.05);
+  backdrop-filter: blur(4px);
 }
 
 .hero__title {
   color: #fff;
-  font-size: clamp(2.6rem, 12vw, 6rem);
+  font-size: clamp(2.6rem, 11vw, 5.6rem);
   line-height: 1.02;
   margin: 0 0 1.1rem;
+  text-shadow: 0 18px 40px rgba(4,12,22,.45);
 }
 .hero__title span { color: var(--amber); }
 
 .hero__role {
-  font-size: clamp(1rem, 3.4vw, 1.2rem);
+  font-size: clamp(.98rem, 3.2vw, 1.15rem);
   font-weight: 600;
   color: #DCE7F2;
   margin: 0 0 .5rem;
@@ -337,27 +369,27 @@ a { color: var(--steel); text-decoration: none; }
   color: #A9C0D6;
   font-style: italic;
   max-width: 34ch;
-  margin: 0 0 2.2rem;
+  margin: 0 0 1.6rem;
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 3rem;
+  margin-bottom: 1.9rem;
 }
 
 .hero__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 18px 28px;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 12px 18px;
   margin: 0;
-  padding-top: 1.75rem;
+  padding-top: 1.2rem;
   border-top: 1px solid rgba(255,255,255,.14);
   max-width: 620px;
 }
 .hero__stats dt {
-  font-size: .72rem;
+  font-size: .66rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: #8FA9C2;
@@ -371,16 +403,76 @@ a { color: var(--steel); text-decoration: none; }
   color: #fff;
 }
 
+/* ---------- Floating frame deck ---------- */
+.deck {
+  position: relative;
+  min-width: 0;
+  height: 210px;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+}
+.deck__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  /* --px/--py come from pointer or scroll parallax in script.js */
+  transform: rotateY(calc(var(--px, 0) * 9deg)) rotateX(calc(var(--py, 0) * -7deg));
+  transition: transform .5s var(--ease);
+}
+.deck__card {
+  position: absolute;
+  width: 47%;
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0E2238;
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: 0 22px 50px rgba(4,12,22,.55);
+  transform-style: preserve-3d;
+  animation: floatCard 9s ease-in-out infinite;
+}
+.deck__card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  opacity: .96;
+}
+.deck__tag {
+  position: absolute;
+  left: 8px; bottom: 8px;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(10,24,40,.72);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  padding: .16rem .5rem;
+  backdrop-filter: blur(6px);
+}
+
+.deck__card--1 { left: 2%;  top: 4%;  transform: translateZ(70px)  rotateY(9deg)  rotateX(3deg);  animation-delay: -.4s; z-index: 4; }
+.deck__card--2 { left: 34%; top: 30%; transform: translateZ(20px)  rotateY(-6deg) rotateX(-2deg); animation-delay: -2.6s; z-index: 3; }
+.deck__card--3 { left: 56%; top: 0;   transform: translateZ(-30px) rotateY(-13deg) rotateX(4deg); animation-delay: -4.8s; z-index: 2; opacity: .95; }
+.deck__card--4 { left: 12%; top: 52%; transform: translateZ(-70px) rotateY(11deg) rotateX(-3deg); animation-delay: -6.5s; z-index: 1; opacity: .9; }
+
+@keyframes floatCard {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -12px; }
+}
+
 .hero__scroll {
   position: absolute;
-  left: 50%; bottom: 26px;
+  left: 50%; bottom: 20px;
   transform: translateX(-50%);
-  width: 34px; height: 52px;
+  width: 34px; height: 46px;
   display: grid; place-items: center;
+  z-index: 2;
 }
 .hero__scroll-line {
   display: block;
-  width: 1px; height: 40px;
+  width: 1px; height: 36px;
   background: linear-gradient(to bottom, transparent, rgba(255,255,255,.65));
   animation: scrollHint 2.1s var(--ease) infinite;
 }
@@ -389,6 +481,27 @@ a { color: var(--steel); text-decoration: none; }
   40%  { transform: scaleY(1);   transform-origin: top; opacity: 1; }
   70%  { transform: scaleY(1);   transform-origin: bottom; opacity: 1; }
   100% { transform: scaleY(.25); transform-origin: bottom; opacity: 0; }
+}
+
+@media (min-width: 560px) {
+  .hero__stats dt { font-size: .72rem; }
+  .deck { height: 260px; }
+  .deck__card { width: 42%; }
+}
+
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 6fr 5fr;
+    align-items: center;
+    gap: 48px;
+  }
+  .hero { padding: calc(var(--nav-h) + 48px) 0 92px; }
+  .deck { height: 420px; }
+  .deck__card { width: 56%; }
+  .deck__card--1 { left: 0;   top: 6%; }
+  .deck__card--2 { left: 30%; top: 34%; }
+  .deck__card--3 { left: 42%; top: -2%; }
+  .deck__card--4 { left: 6%;  top: 60%; }
 }
 
 /* ---------- Section shell ---------- */
@@ -466,6 +579,74 @@ a { color: var(--steel); text-decoration: none; }
 @media (min-width: 860px) {
   .two-col--about { grid-template-columns: 4fr 7fr; align-items: center; }
   .portrait { max-width: 340px; }
+}
+
+
+/* ---------- Reel band (frames on a tilted plane) ---------- */
+.reel {
+  position: relative;
+  overflow: hidden;
+  padding: 46px 0;
+  background: linear-gradient(180deg, #0E2238, #16324F 55%, #12293F);
+  perspective: 900px;
+}
+.reel__stage {
+  transform: rotateX(9deg) rotateZ(-1.4deg);
+  transform-style: preserve-3d;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.reel__track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: reelRun 46s linear infinite;
+}
+.reel:hover .reel__track { animation-play-state: paused; }
+
+.reel__frame {
+  position: relative;
+  flex: none;
+  width: 150px;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
+  background: #0A1B2E;
+  box-shadow: 0 16px 34px rgba(4,12,22,.5);
+}
+.reel__frame img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  opacity: .88;
+  transition: opacity .3s var(--ease);
+}
+.reel__frame:hover img { opacity: 1; }
+.reel__frame figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 14px 8px 6px;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #DCE7F2;
+  background: linear-gradient(to top, rgba(6,16,28,.86), transparent);
+}
+
+/* Two identical rows scroll past; -50% lands exactly on the seam. */
+@keyframes reelRun { to { transform: translate3d(-50%, 0, 0); } }
+
+@media (min-width: 720px) {
+  .reel { padding: 60px 0; }
+  .reel__frame { width: 208px; }
+  .reel__track { gap: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel__track { animation: none; }
+  .reel__stage { transform: none; }
 }
 
 /* ---------- Cards ---------- */
@@ -1053,15 +1234,77 @@ body.is-locked { overflow: hidden; }
 /* ---------- Scroll reveal ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transform: perspective(1000px) translate3d(0, 26px, -60px) rotateX(6deg);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-visible { opacity: 1; transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0); }
 .reveal[data-delay="1"] { transition-delay: .09s; }
 .reveal[data-delay="2"] { transition-delay: .18s; }
 .reveal[data-delay="3"] { transition-delay: .27s; }
 .reveal[data-delay="4"] { transition-delay: .36s; }
 .reveal[data-delay="5"] { transition-delay: .45s; }
+
+
+/* ============================================================
+   3D layer — pointer tilt, depth, glare
+   `is-tilt-ready` is set on <html> by script.js only for fine
+   pointers with motion allowed, so touch devices never pay for it.
+   ============================================================ */
+.is-tilt-ready [data-tilt] {
+  transform: perspective(800px)
+             rotateX(var(--rx, 0deg))
+             rotateY(var(--ry, 0deg))
+             translate3d(0, 0, var(--tz, 0));
+  transition: transform .45s var(--ease), box-shadow .3s var(--ease);
+  transform-style: preserve-3d;
+}
+.is-tilt-ready [data-tilt].is-tilting { transition: box-shadow .3s var(--ease); }
+
+/* Reveal owns the transform until the element has landed. */
+.is-tilt-ready .reveal[data-tilt]:not(.is-visible) { transform: perspective(1000px) translate3d(0, 26px, -60px) rotateX(6deg); }
+
+.is-tilt-ready .card[data-tilt]:hover,
+.is-tilt-ready .gallery__item[data-tilt]:hover { box-shadow: 0 18px 40px rgba(16,36,58,.16), 0 40px 70px rgba(16,36,58,.10); }
+
+/* Sheen that tracks the pointer across tilting cards. */
+.is-tilt-ready .card--project[data-tilt]::after,
+.is-tilt-ready .card--award[data-tilt]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--gx, 50%) var(--gy, 50%),
+              rgba(233,150,62,.16), transparent 62%);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+  pointer-events: none;
+}
+.is-tilt-ready .card--project[data-tilt]:hover::after,
+.is-tilt-ready .card--award[data-tilt]:hover::after { opacity: 1; }
+.card--project, .card--award { position: relative; }
+
+/* Gallery tiles get real depth instead of a flat lift. */
+.gallery { perspective: 1200px; }
+.is-tilt-ready .gallery__item[data-tilt]:hover { --tz: 26px; }
+.is-tilt-ready .gallery__item[data-tilt]:hover img { transform: scale(1.06); }
+
+.is-tilt-ready .portrait[data-tilt]:hover { --tz: 18px; }
+
+/* Sections lift slightly as they enter, so scrolling feels layered. */
+.section { transform-style: preserve-3d; }
+
+/* Lightbox arrives with depth rather than a flat fade. */
+.lightbox__figure {
+  transform: perspective(1200px) translate3d(0, 12px, -90px) rotateX(5deg);
+  transition: transform .38s var(--ease);
+}
+.lightbox.is-open .lightbox__figure { transform: perspective(1200px) translate3d(0, 0, 0) rotateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__figure, .lightbox.is-open .lightbox__figure { transform: none; }
+  .hero__floor-lines, .deck__card { animation: none; }
+  .deck__inner { transition: none; }
+}
 
 /* ---------- Motion / print ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -1071,7 +1314,8 @@ body.is-locked { overflow: hidden; }
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
-  .reveal { opacity: 1; transform: none; }
+  .reveal, .reveal.is-visible { opacity: 1; transform: none; }
+  [data-tilt] { transform: none !important; }
 }
 
 @media print {

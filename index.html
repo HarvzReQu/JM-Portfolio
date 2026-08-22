@@ -54,25 +54,53 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
-  <div class="hero__grid" aria-hidden="true"></div>
-  <div class="hero__glow" aria-hidden="true"></div>
+  <!-- 3D backdrop: a grid plane laid down in perspective, scrolling toward the viewer -->
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__floor"><div class="hero__floor-lines"></div></div>
+    <div class="hero__glow"></div>
+    <div class="hero__vignette"></div>
+  </div>
 
   <div class="wrap hero__inner">
-    <p class="hero__eyebrow reveal">Video Editor &middot; Post-production</p>
-    <h1 class="hero__title reveal" data-delay="1">John Miles<br><span>Gonzaga</span></h1>
-    <p class="hero__role reveal" data-delay="2">Video Editor <span class="dot" aria-hidden="true">&bull;</span> Open to freelance &amp; full-time work</p>
-    <p class="hero__tagline reveal" data-delay="3">Cutting stories people finish watching.</p>
+    <div class="hero__copy">
+      <p class="hero__eyebrow reveal">Video Editor &middot; Post-production</p>
+      <h1 class="hero__title reveal" data-delay="1">John Miles<br><span>Gonzaga</span></h1>
+      <p class="hero__role reveal" data-delay="2">Video Editor <span class="dot" aria-hidden="true">&bull;</span> Open to freelance &amp; full-time work</p>
+      <p class="hero__tagline reveal" data-delay="3">Cutting stories people finish watching.</p>
 
-    <div class="hero__actions reveal" data-delay="4">
-      <a href="#contact" class="btn btn--primary">Get in touch</a>
-      <a href="#gallery" class="btn btn--ghost">Watch the work</a>
+      <div class="hero__actions reveal" data-delay="4">
+        <a href="#contact" class="btn btn--primary">Get in touch</a>
+        <a href="#gallery" class="btn btn--ghost">Watch the work</a>
+      </div>
+
+      <dl class="hero__stats reveal" data-delay="5">
+        <div><dt>Editing since</dt><dd>2015</dd></div>
+        <div><dt>Freelance</dt><dd>2020&ndash;2026</dd></div>
+        <div><dt>Based in</dt><dd>Philippines</dd></div>
+      </dl>
     </div>
 
-    <dl class="hero__stats reveal" data-delay="5">
-      <div><dt>Editing since</dt><dd>2015</dd></div>
-      <div><dt>Freelance</dt><dd>2020&ndash;2026</dd></div>
-      <div><dt>Based in</dt><dd>Philippines</dd></div>
-    </dl>
+    <!-- Frames floating in 3D space; decorative, the real versions live in the gallery -->
+    <div class="deck reveal" data-delay="3" data-parallax aria-hidden="true">
+      <div class="deck__inner">
+        <figure class="deck__card deck__card--1">
+          <img src="assets/img/video-anime-edit-thumb.jpg" alt="" width="800" height="600" decoding="async">
+          <span class="deck__tag">Edit</span>
+        </figure>
+        <figure class="deck__card deck__card--2">
+          <img src="assets/img/video-sketch-process-thumb.jpg" alt="" width="800" height="600" decoding="async">
+          <span class="deck__tag">Process</span>
+        </figure>
+        <figure class="deck__card deck__card--3">
+          <img src="assets/img/sketch-residence-thumb.jpg" alt="" width="800" height="600" decoding="async">
+          <span class="deck__tag">Sketch</span>
+        </figure>
+        <figure class="deck__card deck__card--4">
+          <img src="assets/img/video-night-sky-thumb.jpg" alt="" width="800" height="600" decoding="async">
+          <span class="deck__tag">Timelapse</span>
+        </figure>
+      </div>
+    </div>
   </div>
 
   <a href="#about" class="hero__scroll" aria-label="Scroll to About">
@@ -84,7 +112,7 @@
 <section class="section" id="about">
   <div class="wrap">
     <div class="two-col two-col--about">
-      <figure class="portrait reveal">
+      <figure class="portrait reveal" data-tilt>
         <img src="assets/img/JM-portrait.jpg" alt="Portrait of John Miles M. Gonzaga in graduation regalia" width="599" height="900" loading="lazy" decoding="async">
         <figcaption>John Miles M. Gonzaga &middot; Class of 2026</figcaption>
       </figure>
@@ -101,6 +129,28 @@
           <li>Storyboarding</li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REEL BAND ============ -->
+<section class="reel" aria-label="Selected frames from recent work">
+  <div class="reel__stage" aria-hidden="true">
+    <div class="reel__track">
+        <figure class="reel__frame"><img src="assets/img/video-anime-edit-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Animation edit</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-street-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Street study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/video-sketch-process-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Process film</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-interior-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Interior study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/video-night-sky-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Night timelapse</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-residence-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Residence study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-collection-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Sketch collection</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/video-anime-edit-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Animation edit</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-street-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Street study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/video-sketch-process-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Process film</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-interior-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Interior study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/video-night-sky-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Night timelapse</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-residence-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Residence study</figcaption></figure>
+        <figure class="reel__frame"><img src="assets/img/sketch-collection-thumb.jpg" alt="" width="800" height="600" loading="lazy" decoding="async"><figcaption>Sketch collection</figcaption></figure>
     </div>
   </div>
 </section>
@@ -150,7 +200,7 @@
     <h2 class="section__title reveal" data-delay="1">What I can cut for you</h2>
 
     <div class="grid grid--projects">
-      <article class="card card--project reveal">
+      <article class="card card--project reveal" data-tilt>
         <div class="card__badge">Short-form</div>
         <h3 class="card__title">Social &amp; vertical edits</h3>
         <p class="card__role">TikTok, Reels, Shorts</p>
@@ -162,7 +212,7 @@
         </ul>
       </article>
 
-      <article class="card card--project reveal" data-delay="1">
+      <article class="card card--project reveal" data-tilt data-delay="1">
         <div class="card__badge">Story</div>
         <h3 class="card__title">Documentary &amp; interview</h3>
         <p class="card__role">Award-winning format</p>
@@ -174,7 +224,7 @@
         </ul>
       </article>
 
-      <article class="card card--project reveal">
+      <article class="card card--project reveal" data-tilt>
         <div class="card__badge card__badge--alt">Motion</div>
         <h3 class="card__title">AI-assisted shots</h3>
         <p class="card__role">Kling.ai &amp; Seedance 2.0</p>
@@ -185,7 +235,7 @@
         </ul>
       </article>
 
-      <article class="card card--project reveal" data-delay="1">
+      <article class="card card--project reveal" data-tilt data-delay="1">
         <div class="card__badge card__badge--alt">Pre-production</div>
         <h3 class="card__title">Storyboards &amp; sketches</h3>
         <p class="card__role">Drawn by hand</p>
@@ -236,14 +286,14 @@
     <h2 class="section__title reveal" data-delay="1">Competition results</h2>
 
     <div class="grid grid--awards">
-      <article class="card card--award reveal">
+      <article class="card card--award reveal" data-tilt>
         <span class="award__place">1st</span>
         <div>
           <h3 class="card__title">Documentary Contest</h3>
           <p class="card__org">Division Level &mdash; edited &amp; produced</p>
         </div>
       </article>
-      <article class="card card--award reveal" data-delay="1">
+      <article class="card card--award reveal" data-tilt data-delay="1">
         <span class="award__place award__place--second">2nd</span>
         <div>
           <h3 class="card__title">Photojournalist</h3>
@@ -272,7 +322,7 @@
 
       <!-- ---- Hand sketches ---- -->
       <li class="gallery__cell reveal" data-category="sketch">
-        <button class="gallery__item" type="button"
+        <button class="gallery__item" type="button" data-tilt
                 data-type="image"
                 data-full="assets/img/sketch-residence.jpg"
                 data-caption="Two-storey residence &mdash; pencil perspective">
@@ -282,7 +332,7 @@
       </li>
 
       <li class="gallery__cell reveal" data-delay="1" data-category="sketch">
-        <button class="gallery__item" type="button"
+        <button class="gallery__item" type="button" data-tilt
                 data-type="image"
                 data-full="assets/img/sketch-interior.jpg"
                 data-caption="Living room interior study">
@@ -292,7 +342,7 @@
       </li>
 
       <li class="gallery__cell reveal" data-delay="2" data-category="sketch">
-        <button class="gallery__item" type="button"
+        <button class="gallery__item" type="button" data-tilt
                 data-type="image"
                 data-full="assets/img/sketch-street.jpg"
                 data-caption="Neighborhood street &mdash; one-point perspective">
@@ -302,7 +352,7 @@
       </li>
 
       <li class="gallery__cell reveal" data-category="sketch">
-        <button class="gallery__item" type="button"
+        <button class="gallery__item" type="button" data-tilt
                 data-type="image"
                 data-full="assets/img/sketch-collection.jpg"
                 data-caption="Sketch collection &mdash; architecture, vehicles &amp; landmarks">
@@ -320,7 +370,7 @@
            YouTube:           data-type="youtube" data-id="<11-character video id>"
            The <img> is the poster frame shown in the grid.                       -->
       <li class="gallery__cell reveal" data-delay="2" data-category="video">
-        <button class="gallery__item gallery__item--video" type="button"
+        <button class="gallery__item gallery__item--video" type="button" data-tilt
                 data-type="video"
                 data-src="assets/video/sketch-process.mp4"
                 data-poster="assets/img/video-sketch-process.jpg"
@@ -335,7 +385,7 @@
       </li>
 
       <li class="gallery__cell reveal" data-category="video">
-        <button class="gallery__item gallery__item--video" type="button"
+        <button class="gallery__item gallery__item--video" type="button" data-tilt
                 data-type="video"
                 data-src="assets/video/anime-edit.mp4"
                 data-poster="assets/img/video-anime-edit.jpg"
@@ -350,7 +400,7 @@
       </li>
 
       <li class="gallery__cell reveal" data-delay="1" data-category="video">
-        <button class="gallery__item gallery__item--video" type="button"
+        <button class="gallery__item gallery__item--video" type="button" data-tilt
                 data-type="video"
                 data-src="assets/video/night-sky.mp4"
                 data-poster="assets/img/video-night-sky.jpg"
